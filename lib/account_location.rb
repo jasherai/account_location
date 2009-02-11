@@ -39,11 +39,30 @@ module AccountLocation
     end
 
     def account_domain
+      if request.host.match(/co.uk/)
+        tldsize = 2
+      else
+        tldsize = 1
+      end
       account_domain = ""
-      account_domain << request.subdomains[1..-1].join(".") + "." if request.subdomains.size > 1
+      account_domain << request.subdomains(tldsize)[1..-1].join(".") + "." if request.subdomains.size > 1
       account_domain << request.domain + request.port_string
     end
+
+    def domain_parse
     
+      ## match top-level in gtld hashlist
+    #  GTLDS.match(request.host)
+      ## match top-level in cctld list
+    #  CCTLDS.match(host.split.last)
+      ## match cc sub domains. i.e. co.uk
+    #  ccsub.match(host[-1..-2])
+      ## match domain
+    #    
+      ## match subdomain
+    #
+    end
+
     def account_subdomain
       request.subdomains.first
     end
